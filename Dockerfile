@@ -1,4 +1,4 @@
-FROM node:10-slim
+FROM rust:latest
 
 LABEL com.github.actions.name="Clippy checks"
 LABEL com.github.actions.description="Lint your code with clippy"
