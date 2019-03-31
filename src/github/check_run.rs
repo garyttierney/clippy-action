@@ -1,10 +1,9 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::str::FromStr;
 
 use chrono::{DateTime, Utc};
 use failure::Error;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
 
 use crate::clippy::CompilerMessage;
 
@@ -152,10 +151,7 @@ pub enum AnnotationLevel {
 }
 
 impl Annotation {
-    pub fn from_clippy_message(
-        ws_root: &str,
-        data: CompilerMessage,
-    ) -> Result<Annotation, Error> {
+    pub fn from_clippy_message(ws_root: &str, data: CompilerMessage) -> Result<Annotation, Error> {
         let level = match data.message.level.as_str() {
             "warning" => AnnotationLevel::Warning,
             "error" => AnnotationLevel::Error,

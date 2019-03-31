@@ -1,7 +1,5 @@
 use clap::{App, Arg};
 use env_logger;
-use failure::Fail;
-use log::Level;
 
 mod action;
 mod clippy;

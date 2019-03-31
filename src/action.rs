@@ -4,12 +4,11 @@ use std::io::{BufRead, BufReader};
 
 use failure::{Error, Fail};
 use log;
+use serde_json::Value;
 
 use crate::clippy::CompilerMessage;
-use crate::github::check_run::{Annotation, Conclusion, Output};
-use crate::github::check_run::{CheckDetails, CheckRun};
+use crate::github::check_run::{Annotation, CheckDetails, CheckRun, Conclusion};
 use crate::github::Client;
-use serde_json::Value;
 
 #[derive(Debug, Fail)]
 pub enum ActionError {
@@ -52,7 +51,7 @@ pub fn run(options: ActionOptions) -> Result<(), Error> {
     let mut gh_client = Client::new(token);
     let mut details =
         CheckDetails::create(options.name, sha, options.title, "In Progress".to_owned());
-    let mut new_check_run = CheckRun::new(&details);
+    let new_check_run = CheckRun::new(&details);
     let check_run_id = gh_client.create_check_run(&repository, &new_check_run)?;
 
     let check_file = File::open(&options.input_path)?;
@@ -74,7 +73,7 @@ pub fn run(options: ActionOptions) -> Result<(), Error> {
             let msg: Result<CompilerMessage, _> = serde_json::from_value(data);
             match msg {
                 Ok(msg) => {
-                    total_issues = total_issues + 1;
+                    total_issues += 1;
                     annotation_buffer.push(Annotation::from_clippy_message(&workspace, msg)?);
                 }
                 Err(ref e) if options.ignore_parse_errors => {

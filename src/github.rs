@@ -1,8 +1,6 @@
 use failure::Error;
 use reqwest;
 use reqwest::header;
-use serde::{Deserialize, Serialize};
-use serde_json;
 
 use check_run::{CheckRun, CheckRunId};
 
@@ -69,7 +67,7 @@ impl Client {
             repository.as_ref(),
             id.id
         );
-        let mut response = self
+        let _response = self
             .configure(self.http_client.patch(&url))
             .json(check)
             .send()?;
