@@ -7,4 +7,5 @@ workflow "clippy-action/ci" {
 
 action "clippy-action/ci/lint" {
   uses = "garyttierney/clippy-action@master"
+  secrets = ["GITHUB_TOKEN"]
 }
