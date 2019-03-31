@@ -5,6 +5,14 @@ mod action;
 mod clippy;
 mod github;
 
+fn useless_fn() {
+    assert!(false);
+    let vec : Vec<usize> = vec![];
+    if vec.len() == 0 {
+
+    }
+}
+
 fn main() {
     env_logger::init();
 
